@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .bracket {
+      display: flex;
+      flex-direction: column;
+      margin-right: 50px;
+    }
+
+    .matchup {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .player {
+      margin-right: 10px;
+    }
+
+    .win-button {
+      margin-left: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bracket">
+    <div class="matchup">
+      <div class="player">Player 1</div>
+      <div class="win-button"><button onclick="moveToNextBracket(1)">Win</button></div>
+    </div>
+    <div class="matchup">
+      <div class="player">Player 2</div>
+      <div class="win-button"><button onclick="moveToNextBracket(2)">Win</button></div>
+    </div>
+  </div>
+  <div class="bracket">
+    <div class="matchup">
+      <div class="player">Player 3</div>
+      <div class="win-button"><button onclick="moveToNextBracket(3)">Win</button></div>
+    </div>
+    <div class="matchup">
+      <div class="player">Player 4</div>
+      <div class="win-button"><button onclick="moveToNextBracket(4)">Win</button></div>
+    </div>
+  </div>
+  <script>
+    // Array to store bracket information
+    let brackets = [
+      { player1: 'Player 1', player2: 'Player 2' },
+      { player1: 'Player 3', player2: 'Player 4' }
+    ];
+
+    // Function to move player to next bracket
+    function moveToNextBracket(bracketIndex) {
+      if (bracketIndex >= 0 && bracketIndex < brackets.length) {
+        const currentBracket = brackets[bracketIndex];
+        if (currentBracket.player1 && currentBracket.player2) {
+          const winner = prompt(`Enter the winner for Bracket ${bracketIndex + 1}:`);
+          if (winner && (winner === currentBracket.player1 || winner === currentBracket.player2)) {
+            const nextBracketIndex = Math.floor(bracketIndex / 2);
+            const nextBracket = brackets[nextBracketIndex];
+            if (bracketIndex % 2 === 0) {
+              nextBracket.player1 = winner;
+            } else {
+              nextBracket.player2 = winner;
+            }
+            // Update the UI
+            updateUI();
+          } else {
+            alert('Invalid input. Please enter the name of a player in the current matchup.');
+          }
+        } else {
+          alert('Both players need to play before moving to the next bracket.');
+        }
+      }
+    }
+
+    // Function to update the UI
+    function updateUI() {
+      const matchups = document.getElementsByClassName('matchup');
+      for (let i = 0; i < matchups.length; i++) {
+        const matchup = matchups[i];
+        const player1Element = matchup.getElementsByClassName('player')[0];
+        const player2Element = matchup.getElementsByClassName('player')[1];
+        const winButton = matchup.getElementsByClassName('win-button')[0];
+        if (brackets[i].player1 && brackets[i].player2) {
+          player1Element.textContent = brackets[i].player1;
+          player2Element.textContent = brackets[i].player
+          .player2;
+          winButton.style.display = 'block';
+        } else {
+          player1Element.textContent = 'Player 1';
+          player2Element.textContent = 'Player 2';
+          winButton.style.display = 'none';
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
